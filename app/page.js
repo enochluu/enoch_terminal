@@ -37,14 +37,28 @@ const App = () => {
 
       // Adding the output based on input
       switch (input) {
-        case "ls":
-          newLine.content += "\nfile1 file2 file3";
+        case "whois":
+          newLine.content += "\nHi, I'm Enoch. I'm a Computer Science graduate from UNSW Sydney who has a passion for coding.";
           break;
-        case "pwd":
-          newLine.content += "\n/home/user";
+        case "whoami":
+          newLine.content += "\nYou are a visitor. Welcome!";
+          break;
+        case "projects":
+          window.open("https://github.com/enochluu?tab=repositories", "_blank");
+          newLine.content += "\nOpening Github in a new tab...";
+          break;
+        case "portfolio":
+          window.open("https://personal-portfolio-git-main-enochluus-projects.vercel.app/", "_blank");
+          newLine.content += "\nOpening portfolio in a new tab!";
+          break;
+        case "resume":
+          newLine.content += "\nOpening resume in a new tab!";
+          break;
+        case "help":
+          newLine.content += "\nwhois \nwhoami \nprojects \nportfolio \nresume";
           break;
         default:
-          newLine.content += `\n${input}: command not found`;
+          newLine.content += `\n${input}: Command not found. For a list of commands, type 'help'`;
       }
 
       setOutput(prevOutput => [...prevOutput, newLine]);
