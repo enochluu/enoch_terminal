@@ -21,7 +21,7 @@ const App = () => {
   useEffect(() => {
     const inputRect = inputRef.current.getBoundingClientRect();
     caretRef.current.style.top = `${inputRect.top + inputRect.height - 3}px`; // Position lower
-    caretRef.current.style.left = `${inputRect.left + inputRef.current.selectionEnd * 8}px`; // Adjust based on caret position
+    caretRef.current.style.left = `${inputRect.left + inputRef.current.selectionEnd * 9}px`; // Adjust based on caret position
   }, [input, showCaret]);
 
   const handleClick = () => {
@@ -58,7 +58,7 @@ const App = () => {
           newLine.content += "\nwhois \nwhoami \nprojects \nportfolio \nresume";
           break;
         default:
-          newLine.content += `\n${input}: Command not found. For a list of commands, type 'help'`;
+          newLine.content += `\n${input}: Command not found. For a list of commands, type 'help'.`;
       }
 
       setOutput(prevOutput => [...prevOutput, newLine]);
@@ -69,13 +69,31 @@ const App = () => {
   };
   
   return (
-    <div className="min-h-screen p-4" onClick={handleClick}>
-      <div className="terminal-output whitespace-pre-wrap">
+    <div className="min-h-screen p-4" onClick={handleClick} >
+      <div className="terminal-output whitespace-pre-wrap" style={{ whiteSpace: 'pre-wrap' }}>
+        <div>
+        {`
+   ___    _  _     ___     ___    _  _                   
+  | __|  | \\| |   / _ \\   / __|  | || |                  
+  | _|   | .\` |  | (_) | | (__   | __ |                  
+  |___|  |_|\\_|   \\___/   \\___|  |_||_|                  
+_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|                 
+\"\`-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'           
+   _      _   _   _   _            ___     ___   __  __  
+  | |    | | | | | | | |          / __|   / _ \\ |  \\/  | 
+  | |__  | |_| | | |_| |    _    | (__   | (_) || |\\/| | 
+  |____|  \\___/   \\___/   _(_)_   \\___|   \\___/ |_|__|_| 
+_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""| 
+\"\`-0-0-'"\`\-0-0-'\"\`-0-0-'\"\`-0-0-'\"\`-0-0-'\"\`-0-0-'\"\`-0-0-' 
+          `}
+        </div>
+        <div>Welcome to my interactive terminal. </div>
+        <div>For a list of available commands, type 'help'.</div>
         {output.map((line, index) => (
           <div key={index}>
             <span style={{ color: '#56D64D' }}>visitor@enochluu.com</span>
             <span style={{ color: 'white' }}>:</span>
-            <span style={{ color: '#4366e6' }}>~</span>
+            <span style={{ color: '#327CFF' }}>~</span>
             <span style={{ color: 'white' }}>$</span>
             <span>&nbsp;{line.content.slice(line.content.indexOf("$") + 2)}</span>
           </div>
@@ -84,7 +102,7 @@ const App = () => {
       <div className="flex">
         <span style={{ color: '#56D64D' }}>visitor@enochluu.com</span>
         <span style={{ color: 'white' }}>:</span>
-        <span style={{ color: '#4366e6' }}>~</span>
+        <span style={{ color: '#327CFF' }}>~</span>
         <span style={{ color: 'white' }}>$</span>
         <span>&nbsp;</span>
         <input
