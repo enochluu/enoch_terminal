@@ -20,6 +20,33 @@ input {
   width: 100%;
 }
 
+.custom-caret {
+  width: 0.5em; /* Adjust width to make it longer */
+  height: 0.25em; /* Adjust height to make it thicker */
+  background: white;
+  position: absolute;
+  pointer-events: none; /* Ensure caret doesn't interfere with input events */
+  bottom: -0.05em; /* Position slightly lower */
+  transition: opacity 0.2s ease-in-out; /* Add a transition for smooth visibility changes */
+}
+
+.visible {
+  opacity: 1;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+
 /* Example of media query for smaller screens */
 @media (max-width: 768px) {
   /* Adjust styles for smaller screens here */

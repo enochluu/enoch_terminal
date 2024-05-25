@@ -6,7 +6,9 @@ const App = () => {
   const [output, setOutput] = useState([]);
   const inputRef = useRef(null);
   const caretRef = useRef(null);
+  const outputContainerRef = useRef(null); // Ref for the output container
   const [showCaret, setShowCaret] = useState(false); // Initialize to false
+  const prompt = "visitor@enochluu.com:~$ ";
 
   useEffect(() => {
     inputRef.current.focus();
@@ -19,10 +21,75 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const inputRect = inputRef.current.getBoundingClientRect();
-    caretRef.current.style.top = `${inputRect.top + inputRect.height - 3}px`; // Position lower
-    caretRef.current.style.left = `${inputRect.left + inputRef.current.selectionEnd * 9}px`; // Adjust based on caret position
-  }, [input, showCaret]);
+    const updateCaretPosition = () => {
+      const inputEle = inputRef.current;
+      const caretEle = caretRef.current;
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+
+      const inputStyles = window.getComputedStyle(inputEle);
+      const font = `${inputStyles.getPropertyValue('font-size')} ${inputStyles.getPropertyValue('font-family')}`;
+      const paddingLeft = parseInt(inputStyles.getPropertyValue('padding-left'), 10);
+
+      const measureWidth = (text, font) => {
+        context.font = font;
+        const metrics = context.measureText(text);
+        return metrics.width;
+      };
+
+      const promptWidth = measureWidth(prompt, font);
+
+      const updatePosition = (position) => {
+        const text = inputEle.value.substr(0, position);
+        const textWidth = measureWidth(text, font) + paddingLeft + promptWidth;
+        caretEle.style.transform = `translate(${textWidth}px, -50%)`;
+      };
+
+      updatePosition(inputEle.selectionStart);
+    };
+
+    updateCaretPosition(); // Update on initial mount
+    document.addEventListener('selectionchange', updateCaretPosition);
+
+    return () => document.removeEventListener('selectionchange', updateCaretPosition);
+  }, [input]);
+
+  useEffect(() => {
+    const outputContainer = outputContainerRef.current;
+    outputContainer.scrollTop = outputContainer.scrollHeight; // Scroll to the bottom
+
+    const updateCaretPosition = () => {
+      const inputEle = inputRef.current;
+      const caretEle = caretRef.current;
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+
+      const inputStyles = window.getComputedStyle(inputEle);
+      const font = `${inputStyles.getPropertyValue('font-size')} ${inputStyles.getPropertyValue('font-family')}`;
+      const paddingLeft = parseInt(inputStyles.getPropertyValue('padding-left'), 10);
+
+      const measureWidth = (text, font) => {
+        context.font = font;
+        const metrics = context.measureText(text);
+        return metrics.width;
+      };
+
+      const promptWidth = measureWidth(prompt, font);
+
+      const updatePosition = (position) => {
+        const text = inputEle.value.substr(0, position);
+        const textWidth = measureWidth(text, font) + paddingLeft + promptWidth;
+        caretEle.style.transform = `translate(${textWidth}px, -50%)`;
+      };
+
+      updatePosition(inputEle.selectionStart);
+    };
+
+    updateCaretPosition(); // Update on initial mount
+    document.addEventListener('selectionchange', updateCaretPosition);
+
+    return () => document.removeEventListener('selectionchange', updateCaretPosition);
+  }, [input, output]);
 
   const handleClick = () => {
     inputRef.current.focus();
@@ -31,7 +98,7 @@ const App = () => {
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       const newLine = {
-        content: `visitor@enochluu.com:~$ ${input}`,
+        content: `${prompt}${input}`,
         style: { color: '#00FF00' }
       };
 
@@ -67,27 +134,37 @@ const App = () => {
       setShowCaret(true); // Show caret when typing
     }
   };
-  
+
   return (
-    <div className="min-h-screen p-4" onClick={handleClick} >
-      <div className="terminal-output whitespace-pre-wrap" style={{ whiteSpace: 'pre-wrap' }}>
+    <div className="min-h-screen p-4" onClick={handleClick}>
+      <div
+        ref={outputContainerRef} // Assign the ref to the output container
+        className="terminal-output whitespace-pre-wrap"
+        style={{
+          whiteSpace: 'pre-wrap',
+          maxHeight: 'calc(100vh - 70px)',
+          overflowY: 'auto',
+          scrollbarWidth: 'none', // Hide scrollbar for Firefox
+          msOverflowStyle: 'none' // Hide scrollbar for IE/Edge
+        }}
+      >
         <div>
-        {`
+          {`
    ___    _  _     ___     ___    _  _                   
   | __|  | \\| |   / _ \\   / __|  | || |                  
   | _|   | .\` |  | (_) | | (__   | __ |                  
   |___|  |_|\\_|   \\___/   \\___|  |_||_|                  
 _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|                 
-\"\`-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'           
+"\`-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'           
    _      _   _   _   _            ___     ___   __  __  
   | |    | | | | | | | |          / __|   / _ \\ |  \\/  | 
   | |__  | |_| | | |_| |    _    | (__   | (_) || |\\/| | 
   |____|  \\___/   \\___/   _(_)_   \\___|   \\___/ |_|__|_| 
 _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""| 
-\"\`-0-0-'"\`\-0-0-'\"\`-0-0-'\"\`-0-0-'\"\`-0-0-'\"\`-0-0-'\"\`-0-0-' 
+"\`-0-0-'"\`\-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-' 
           `}
         </div>
-        <div>Welcome to my interactive terminal. </div>
+        <div>Welcome to my interactive terminal.</div>
         <div>For a list of available commands, type 'help'.</div>
         {output.map((line, index) => (
           <div key={index}>
@@ -98,8 +175,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             <span>&nbsp;{line.content.slice(line.content.indexOf("$") + 2)}</span>
           </div>
         ))}
-      </div>
-      <div className="flex">
+        <div className="flex" style={{ position: 'relative' }}>
         <span style={{ color: '#56D64D' }}>visitor@enochluu.com</span>
         <span style={{ color: 'white' }}>:</span>
         <span style={{ color: '#327CFF' }}>~</span>
@@ -112,19 +188,22 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           className={`bg-transparent border-none outline-none`}
-          style={{ padding: '0', caretColor: 'transparent' }} // Hide default caret color
+          style={{ padding: '0', caretColor: 'transparent', position: 'relative', zIndex: 1 }} // Hide default caret color and adjust z-index
         />
-        <div
-          ref={caretRef}
-          className={`custom-caret ${showCaret ? 'visible' : 'hidden'}`} // Toggle caret visibility class
-          style={{
-            width: '0.7em',
-            height: '0.3em',
-            background: 'white',
-            position: 'absolute',
-            pointerEvents: 'none', // Ensure caret doesn't interfere with input events
-          }}
-        />
+<div
+  ref={caretRef}
+  className={`custom-caret ${showCaret ? 'visible' : 'hidden'}`}
+  style={{
+    width: '0.6em',
+    height: '0.3em',
+    background: 'white',
+    position: 'absolute',
+    pointerEvents: 'none',
+    bottom: '-0.05em',
+    transition: 'opacity 0.2s ease-in-out',
+  }}
+/>
+      </div>
       </div>
     </div>
   );
