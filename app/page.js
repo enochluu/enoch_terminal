@@ -119,6 +119,7 @@ const App = () => {
           newLine.content += "\nOpening portfolio in a new tab!";
           break;
         case "resume":
+          window.open("/Resume_EnochLuu.pdf", "_blank");
           newLine.content += "\nOpening resume in a new tab!";
           break;
         case "help":
