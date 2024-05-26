@@ -108,6 +108,9 @@ const App = () => {
         case "whois":
           newLine.content += "\nHi, I'm Enoch. I'm a Computer Science graduate from UNSW Sydney who has a passion for coding.";
           break;
+        case "whoami":
+          newLine.content += "\nYou are a visitor. Welcome!";
+          break;
         case "portfolio":
           window.open("https://personal-portfolio-git-main-enochluus-projects.vercel.app/", "_blank");
           newLine.content += "\nOpening portfolio in a new tab!";
@@ -131,7 +134,9 @@ const App = () => {
           break;
         case "help":
           newLine.content += `
-    whois                 Who is Enoch?              
+    whois                 Who is Enoch?
+    whoami                Who are you?
+    help                  For the list of avaliable commands... again??
     portfolio             Check out my portfolio website!
     resume                Have a look at my resume.
     contact               Contact me!`;
