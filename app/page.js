@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
+import Head from 'next/head';
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -107,13 +108,6 @@ const App = () => {
         case "whois":
           newLine.content += "\nHi, I'm Enoch. I'm a Computer Science graduate from UNSW Sydney who has a passion for coding.";
           break;
-        case "whoami":
-          newLine.content += "\nYou are a visitor. Welcome!";
-          break;
-        case "projects":
-          window.open("https://github.com/enochluu?tab=repositories", "_blank");
-          newLine.content += "\nOpening Github in a new tab...";
-          break;
         case "portfolio":
           window.open("https://personal-portfolio-git-main-enochluus-projects.vercel.app/", "_blank");
           newLine.content += "\nOpening portfolio in a new tab!";
@@ -122,11 +116,28 @@ const App = () => {
           window.open("/Resume_EnochLuu.pdf", "_blank");
           newLine.content += "\nOpening resume in a new tab!";
           break;
+        case "contact":
+          newLine.content += `
+    email                 enochluu9@gmail.com
+    linkedin              https://www.linkedin.com/in/enochluu/`;
+          break;
+        case "email":
+          window.location.href = "mailto:enochluu9@gmail.com";
+          newLine.content += "\nOpening default email client!";
+          break;
+        case "linkedin":
+          window.open("https://www.linkedin.com/in/enochluu/", "_blank");
+          newLine.content += "\nOpening my LinkedIn profile in a new tab!";
+          break;
         case "help":
-          newLine.content += "\nwhois \nwhoami \nprojects \nportfolio \nresume";
+          newLine.content += `
+    whois                 Who is Enoch?              
+    portfolio             Check out my portfolio website!
+    resume                Have a look at my resume.
+    contact               Contact me!`;
           break;
         default:
-          newLine.content += `\n${input}: Command not found. For a list of commands, type 'help'.`;
+        newLine.content += `\n${input}: Command not found. For a list of commands, type 'help'.`;
       }
 
       setOutput(prevOutput => [...prevOutput, newLine]);
@@ -137,6 +148,10 @@ const App = () => {
   };
 
   return (
+    <div>
+    <Head>
+      <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    </Head>
     <div className="min-h-screen p-4" onClick={handleClick}>
       <div
         ref={outputContainerRef} // Assign the ref to the output container
@@ -165,7 +180,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 "\`-0-0-'"\`\-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-' 
           `}
         </div>
-        <div>Welcome to my interactive terminal.</div>
+        <div>Welcome to my interactive web terminal.</div>
         <div>For a list of available commands, type 'help'.</div>
         {output.map((line, index) => (
           <div key={index}>
@@ -191,22 +206,23 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
           className={`bg-transparent border-none outline-none`}
           style={{ padding: '0', caretColor: 'transparent', position: 'relative', zIndex: 1 }} // Hide default caret color and adjust z-index
         />
-<div
-  ref={caretRef}
-  className={`custom-caret ${showCaret ? 'visible' : 'hidden'}`}
-  style={{
-    width: '0.6em',
-    height: '0.3em',
-    background: 'white',
-    position: 'absolute',
-    pointerEvents: 'none',
-    bottom: '-0.05em',
-    transition: 'opacity 0.2s ease-in-out',
-  }}
-/>
-      </div>
+        <div
+          ref={caretRef}
+          className={`custom-caret ${showCaret ? 'visible' : 'hidden'}`}
+          style={{
+            width: '0.6em',
+            height: '0.3em',
+            background: 'white',
+            position: 'absolute',
+            pointerEvents: 'none',
+            bottom: '-0.05em',
+            transition: 'opacity 0.2s ease-in-out',
+          }}
+        />
       </div>
     </div>
+  </div>
+  </div>
   );
 }
 
