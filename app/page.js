@@ -112,7 +112,7 @@ const App = () => {
           newLine.content += "\nYou are a visitor. Welcome!";
           break;
         case "portfolio":
-          window.open("https://personal-portfolio-git-main-enochluus-projects.vercel.app/", "_blank");
+          window.open("https://enoch-portfolio.vercel.app/", "_blank");
           newLine.content += "\nOpening portfolio in a new tab!";
           break;
         case "resume":
