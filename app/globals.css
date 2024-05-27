@@ -46,15 +46,28 @@ input {
   opacity: 0;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
 
 /* Example of media query for smaller screens */
 @media (max-width: 768px) {
   /* Adjust styles for smaller screens here */
   .terminal-output {
-    font-size: 9px;
+    font-size: 12px;
     /* Add other adjustments as needed */
   }
   .flex {
+    font-size: 12px;
+  }
+  .ascii-art {
     font-size: 9px;
   }
 }

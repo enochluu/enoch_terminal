@@ -156,7 +156,7 @@ const App = () => {
       <div className="min-h-screen p-4" onClick={handleClick}>
         <div
           ref={outputContainerRef} // Assign the ref to the output container
-          className="terminal-output whitespace-pre-wrap"
+          className="terminal-output"
           style={{
             whiteSpace: 'pre-wrap',
             maxHeight: 'calc(100vh - 70px)',
@@ -165,7 +165,7 @@ const App = () => {
             msOverflowStyle: 'none' // Hide scrollbar for IE/Edge
           }}
         >
-          <div>
+          <div className="ascii-art">
             {`
    ___    _  _     ___     ___    _  _                   
   | __|  | \\| |   / _ \\   / __|  | || |                  
@@ -198,7 +198,9 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
           <span style={{ color: '#327CFF' }}>~</span>
           <span style={{ color: 'white' }}>$</span>
           <span>&nbsp;</span>
+          <label htmlFor="commandInput" className="sr-only">Command Input:</label>
           <input
+            id="commandInput"
             ref={inputRef}
             type="text"
             value={input}
