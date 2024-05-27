@@ -120,8 +120,8 @@ const App = () => {
           break;
         case "contact":
           newLine.content += `
-    email                 enochluu9@gmail.com
-    linkedin              https://www.linkedin.com/in/enochluu/`;
+    email                 Send me an email.
+    linkedin              Connect with me!`;
           break;
         case "email":
           window.location.href = "mailto:enochluu9@gmail.com";
