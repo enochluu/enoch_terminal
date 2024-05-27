@@ -14,11 +14,17 @@ const cascadiacode = localFont({
 export const metadata = {
   title: "Enoch Luu",
   description: "My personal website",
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+      </head>
       <body className={cascadiacode.className}>{children}</body>
     </html>
   );

@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
-import Head from 'next/head';
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -154,79 +153,76 @@ const App = () => {
 
   return (
     <div>
-    <Head>
-      <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    </Head>
-    <div className="min-h-screen p-4" onClick={handleClick}>
-      <div
-        ref={outputContainerRef} // Assign the ref to the output container
-        className="terminal-output whitespace-pre-wrap"
-        style={{
-          whiteSpace: 'pre-wrap',
-          maxHeight: 'calc(100vh - 70px)',
-          overflowY: 'auto',
-          scrollbarWidth: 'none', // Hide scrollbar for Firefox
-          msOverflowStyle: 'none' // Hide scrollbar for IE/Edge
-        }}
-      >
-        <div>
-          {`
-   ___    _  _     ___     ___    _  _                   
-  | __|  | \\| |   / _ \\   / __|  | || |                  
-  | _|   | .\` |  | (_) | | (__   | __ |                  
-  |___|  |_|\\_|   \\___/   \\___|  |_||_|                  
-_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|                 
-"\`-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'           
-   _      _   _   _   _            ___     ___   __  __  
-  | |    | | | | | | | |          / __|   / _ \\ |  \\/  | 
-  | |__  | |_| | | |_| |    _    | (__   | (_) || |\\/| | 
-  |____|  \\___/   \\___/   _(_)_   \\___|   \\___/ |_|__|_| 
-_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""| 
-"\`-0-0-'"\`\-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-' 
-          `}
-        </div>
-        <div>Welcome to my interactive web terminal.</div>
-        <div>For a list of available commands, type 'help'.</div>
-        {output.map((line, index) => (
-          <div key={index}>
-            <span style={{ color: '#56D64D' }}>visitor@enochluu.com</span>
-            <span style={{ color: 'white' }}>:</span>
-            <span style={{ color: '#327CFF' }}>~</span>
-            <span style={{ color: 'white' }}>$</span>
-            <span>&nbsp;{line.content.slice(line.content.indexOf("$") + 2)}</span>
-          </div>
-        ))}
-        <div className="flex" style={{ position: 'relative' }}>
-        <span style={{ color: '#56D64D' }}>visitor@enochluu.com</span>
-        <span style={{ color: 'white' }}>:</span>
-        <span style={{ color: '#327CFF' }}>~</span>
-        <span style={{ color: 'white' }}>$</span>
-        <span>&nbsp;</span>
-        <input
-          ref={inputRef}
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          className={`bg-transparent border-none outline-none`}
-          style={{ padding: '0', caretColor: 'transparent', position: 'relative', zIndex: 1 }} // Hide default caret color and adjust z-index
-        />
+      <div className="min-h-screen p-4" onClick={handleClick}>
         <div
-          ref={caretRef}
-          className={`custom-caret ${showCaret ? 'visible' : 'hidden'}`}
+          ref={outputContainerRef} // Assign the ref to the output container
+          className="terminal-output whitespace-pre-wrap"
           style={{
-            width: '0.6em',
-            height: '0.3em',
-            background: 'white',
-            position: 'absolute',
-            pointerEvents: 'none',
-            bottom: '-0.05em',
-            transition: 'opacity 0.2s ease-in-out',
+            whiteSpace: 'pre-wrap',
+            maxHeight: 'calc(100vh - 70px)',
+            overflowY: 'auto',
+            scrollbarWidth: 'none', // Hide scrollbar for Firefox
+            msOverflowStyle: 'none' // Hide scrollbar for IE/Edge
           }}
-        />
+        >
+          <div>
+            {`
+    ___    _  _     ___     ___    _  _                   
+    | __|  | \\| |   / _ \\   / __|  | || |                  
+    | _|   | .\` |  | (_) | | (__   | __ |                  
+    |___|  |_|\\_|   \\___/   \\___|  |_||_|                  
+  _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|                 
+  "\`-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'"\`\-0\-0\-'           
+    _      _   _   _   _            ___     ___   __  __  
+    | |    | | | | | | | |          / __|   / _ \\ |  \\/  | 
+    | |__  | |_| | | |_| |    _    | (__   | (_) || |\\/| | 
+    |____|  \\___/   \\___/   _(_)_   \\___|   \\___/ |_|__|_| 
+  _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""| 
+  "\`-0-0-'"\`\-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-' 
+            `}
+          </div>
+          <div>Welcome to my interactive web terminal.</div>
+          <div>For a list of available commands, type 'help'.</div>
+          {output.map((line, index) => (
+            <div key={index}>
+              <span style={{ color: '#56D64D' }}>visitor@enochluu.com</span>
+              <span style={{ color: 'white' }}>:</span>
+              <span style={{ color: '#327CFF' }}>~</span>
+              <span style={{ color: 'white' }}>$</span>
+              <span>&nbsp;{line.content.slice(line.content.indexOf("$") + 2)}</span>
+            </div>
+          ))}
+          <div className="flex" style={{ position: 'relative' }}>
+          <span style={{ color: '#56D64D' }}>visitor@enochluu.com</span>
+          <span style={{ color: 'white' }}>:</span>
+          <span style={{ color: '#327CFF' }}>~</span>
+          <span style={{ color: 'white' }}>$</span>
+          <span>&nbsp;</span>
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className={`bg-transparent border-none outline-none`}
+            style={{ padding: '0', caretColor: 'transparent', position: 'relative', zIndex: 1 }} // Hide default caret color and adjust z-index
+          />
+          <div
+            ref={caretRef}
+            className={`custom-caret ${showCaret ? 'visible' : 'hidden'}`}
+            style={{
+              width: '0.6em',
+              height: '0.3em',
+              background: 'white',
+              position: 'absolute',
+              pointerEvents: 'none',
+              bottom: '-0.05em',
+              transition: 'opacity 0.2s ease-in-out',
+            }}
+          />
+        </div>
       </div>
     </div>
-  </div>
   </div>
   );
 }
