@@ -1,3 +1,4 @@
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -25,7 +26,10 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
       </head>
-      <body className={cascadiacode.className}>{children}</body>
+      <body className={cascadiacode.className}>
+        {children}
+        <SpeedInsights />
+      </body>
     </html>
   );
 }
