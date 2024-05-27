@@ -17,7 +17,7 @@ export const metadata = {
   title: "Enoch Luu | Computer Science Graduate | Portfolio, Resume, LinkedIn",
   description: "Welcome to the personal website of Enoch Luu, a Computer Science graduate from UNSW Sydney. Explore my portfolio, view my resume, and connect with me on LinkedIn. Discover my projects, skills, and professional journey.",
   icons: {
-    icon: '/favicon.ico',
+    icon: '/icon.png',
   },
 };
 
@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
       <head>
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="icon" href="/icon.png" type="image/png" />
         <meta property="og:title" content={metadata.title} />
         <meta property="og:description" content={metadata.description} />
         <meta property="og:url" content="https://www.enochluu.com" />
