@@ -14,8 +14,8 @@ const cascadiacode = localFont({
 })
 
 export const metadata = {
-  title: "Enoch Luu",
-  description: "My personal website",
+  title: "Enoch Luu | Computer Science Graduate | Portfolio, Resume, LinkedIn",
+  description: "Welcome to the personal website of Enoch Luu, a Computer Science graduate from UNSW Sydney. Explore my portfolio, view my resume, and connect with me on LinkedIn. Discover my projects, skills, and professional journey.",
   icons: {
     icon: '/favicon.ico',
   },
@@ -25,7 +25,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <meta property="og:title" content={metadata.title} />
+        <meta property="og:description" content={metadata.description} />
+        <meta property="og:url" content="https://www.enochluu.com" />
+        <meta name="twitter:title" content={metadata.title} />
+        <meta name="twitter:description" content={metadata.description} />
       </head>
       <body className={cascadiacode.className}>
         {children}
