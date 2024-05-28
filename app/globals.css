@@ -57,17 +57,60 @@ input {
   border: 0;
 }
 
-/* Example of media query for smaller screens */
-@media (max-width: 768px) {
-  /* Adjust styles for smaller screens here */
-  .terminal-output {
-    font-size: 12px;
-    /* Add other adjustments as needed */
-  }
-  .flex {
-    font-size: 12px;
-  }
+.help-commands {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  /* gap: 0.5rem; */
+}
+
+.help-command {
+  color: white; /* Color for commands */
+  padding-left: 2rem;
+}
+
+.help-description {
+  color: white; /* Color for descriptions */
+}
+
+@media (max-width: 576px) {
   .ascii-art {
     font-size: 9px;
   }
+  .help-commands {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 0.7rem;
+  }
 }
+
+@media (min-width: 577px) {
+  .ascii-art {
+    font-size: 15px;
+  }
+  .help-commands {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 0.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .help-commands {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 0.3rem;
+  }
+}
+
+@media (min-width: 993px) {
+  .help-commands {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    gap: 0.1rem;
+  }
+
+  .help-command {
+    color: white;
+    padding-left: 2rem;
+  }
+ }

@@ -99,52 +99,67 @@ const App = () => {
     if (e.key === "Enter") {
       const newLine = {
         content: `${prompt}${input}`,
-        style: { color: '#00FF00' }
+        style: { color: '#00FF00' },
+        contentArray: [], // New array to hold separate content items
       };
-
+  
       // Adding the output based on input
       switch (input) {
         case "whois":
-          newLine.content += "\nHi, I'm Enoch. I'm a Computer Science graduate from UNSW Sydney who has a passion for coding.";
+          newLine.contentArray.push(
+            "Hi, I'm Enoch. I'm a Computer Science graduate from UNSW Sydney who has a passion for coding."
+          );
           break;
         case "whoami":
-          newLine.content += "\nYou are a visitor. Welcome!";
+          newLine.contentArray.push(
+            "You are a visitor. Welcome!"
+          );
+          break;
+        case "help":
+          newLine.contentArray.push(
+            <div key="help-commands" className="help-commands">
+              <div className="help-command">whois</div>
+              <div className="help-description">Who is Enoch?</div>
+              <div className="help-command">whoami</div>
+              <div className="help-description">Who are you?</div>
+              <div className="help-command">help</div>
+              <div className="help-description">For the list of available commands... again??</div>
+              <div className="help-command">portfolio</div>
+              <div className="help-description">Check out my portfolio website!</div>
+              <div className="help-command">resume</div>
+              <div className="help-description">Have a look at my resume.</div>
+              <div className="help-command">contact</div>
+              <div className="help-description">Contact me!</div>
+            </div>
+          );
           break;
         case "portfolio":
           window.open("https://enoch-portfolio.vercel.app/", "_blank");
-          newLine.content += "\nOpening portfolio in a new tab!";
+          newLine.contentArray.push("Opening portfolio in a new tab!");
           break;
         case "resume":
           window.open("/Resume_EnochLuu.pdf", "_blank");
-          newLine.content += "\nOpening resume in a new tab!";
+          newLine.contentArray.push("Opening resume in a new tab!");
           break;
         case "contact":
-          newLine.content += `
-    email                 Send me an email.
-    linkedin              Connect with me!`;
+          newLine.contentArray.push(
+            "email: Send me an email.",
+            "linkedin: Connect with me!"
+          );
           break;
         case "email":
           window.location.href = "mailto:enochluu9@gmail.com";
-          newLine.content += "\nOpening default email client!";
+          newLine.contentArray.push("Opening default email client!");
           break;
         case "linkedin":
           window.open("https://www.linkedin.com/in/enochluu/", "_blank");
-          newLine.content += "\nOpening my LinkedIn profile in a new tab!";
-          break;
-        case "help":
-          newLine.content += `
-    whois                 Who is Enoch?
-    whoami                Who are you?
-    help                  For the list of avaliable commands... again??
-    portfolio             Check out my portfolio website!
-    resume                Have a look at my resume.
-    contact               Contact me!`;
+          newLine.contentArray.push("Opening my LinkedIn profile in a new tab!");
           break;
         default:
-        newLine.content += `\n${input}: Command not found. For a list of commands, type 'help'.`;
+          newLine.contentArray.push(`${input}: Command not found. For a list of commands, type 'help'.`);
       }
-
-      setOutput(prevOutput => [...prevOutput, newLine]);
+  
+      setOutput((prevOutput) => [...prevOutput, newLine]);
       setInput("");
     } else {
       setShowCaret(true); // Show caret when typing
@@ -189,7 +204,10 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
               <span style={{ color: 'white' }}>:</span>
               <span style={{ color: '#327CFF' }}>~</span>
               <span style={{ color: 'white' }}>$</span>
-              <span>&nbsp;{line.content.slice(line.content.indexOf("$") + 2)}</span>
+              <span> {line.content.slice(prompt.length)}</span>
+              {line.contentArray.map((content, idx) => (
+                <div key={idx}>{content}</div>
+              ))}
             </div>
           ))}
           <div className="flex" style={{ position: 'relative' }}>
