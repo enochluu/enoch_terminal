@@ -185,6 +185,7 @@ const App = () => {
           }}
         >
           <div className="ascii-art">
+            <pre style={{ display: 'inline-block' }}>
             {`
    ___    _  _     ___     ___    _  _                   
   | __|  | \\| |   / _ \\   / __|  | || |                  
@@ -199,6 +200,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
 _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""| 
 "\`-0-0-'"\`\-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-'"\`-0-0-' 
             `}
+            </pre>
           </div>
           <div>Welcome to my interactive web terminal.</div>
           <div>For a list of available commands, type 'help'.</div>

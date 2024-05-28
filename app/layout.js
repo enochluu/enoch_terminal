@@ -1,5 +1,3 @@
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from "@vercel/analytics/react"
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -36,8 +34,6 @@ export default function RootLayout({ children }) {
       </head>
       <body className={cascadiacode.className}>
         {children}
-        <SpeedInsights />
-        <Analytics />
       </body>
     </html>
   );
