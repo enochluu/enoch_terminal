@@ -143,8 +143,12 @@ const App = () => {
           break;
         case "contact":
           newLine.contentArray.push(
-            "email: Send me an email.",
-            "linkedin: Connect with me!"
+            <div key="contact-info" className="contact-info">
+              <div className="contact-method">email</div>
+              <div className="contact-description">Send me an email.</div>
+              <div className="contact-method">linkedin</div>
+              <div className="contact-description">Connect with me!</div>
+            </div>
           );
           break;
         case "email":
@@ -211,39 +215,39 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             </div>
           ))}
           <div className="flex" style={{ position: 'relative' }}>
-          <span style={{ color: '#56D64D' }}>visitor@enochluu.com</span>
-          <span style={{ color: 'white' }}>:</span>
-          <span style={{ color: '#327CFF' }}>~</span>
-          <span style={{ color: 'white' }}>$</span>
-          <span>&nbsp;</span>
-          <label htmlFor="commandInput" className="sr-only">Command Input:</label>
-          <input
-            id="commandInput"
-            ref={inputRef}
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className={`bg-transparent border-none outline-none`}
-            style={{ padding: '0', caretColor: 'transparent', position: 'relative', zIndex: 1 }} // Hide default caret color and adjust z-index
-          />
-          <div
-            ref={caretRef}
-            className={`custom-caret ${showCaret ? 'visible' : 'hidden'}`}
-            style={{
-              width: '0.6em',
-              height: '0.3em',
-              background: 'white',
-              position: 'absolute',
-              pointerEvents: 'none',
-              bottom: '-0.05em',
-              transition: 'opacity 0.2s ease-in-out',
-            }}
-          />
+            <span style={{ color: '#56D64D' }}>visitor@enochluu.com</span>
+            <span style={{ color: 'white' }}>:</span>
+            <span style={{ color: '#327CFF' }}>~</span>
+            <span style={{ color: 'white' }}>$</span>
+            <span>&nbsp;</span>
+            <label htmlFor="commandInput" className="sr-only">Command Input:</label>
+            <input
+              id="commandInput"
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className={`bg-transparent border-none outline-none`}
+              style={{ padding: '0', caretColor: 'transparent', position: 'relative', zIndex: 1 }} // Hide default caret color and adjust z-index
+            />
+            <div
+              ref={caretRef}
+              className={`custom-caret ${showCaret ? 'visible' : 'hidden'}`}
+              style={{
+                width: '0.6em',
+                height: '0.3em',
+                background: 'white',
+                position: 'absolute',
+                pointerEvents: 'none',
+                bottom: '-0.05em',
+                transition: 'opacity 0.2s ease-in-out',
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
-  </div>
   );
 }
 
