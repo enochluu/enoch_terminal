@@ -133,6 +133,8 @@ const App = () => {
               <div className="help-description">Have a look at my resume.</div>
               <div className="help-command">contact</div>
               <div className="help-description">Contact me!</div>
+              <div className="help-command">advanced</div>
+              <div classname="help-description">Advanced options to see my skills</div>
             </div>
           );
           break;
@@ -161,6 +163,16 @@ const App = () => {
         case "linkedin":
           window.open("https://www.linkedin.com/in/enochluu/", "_blank");
           newLine.contentArray.push("Opening my LinkedIn profile in a new tab!");
+          break;
+        case "advanced":
+          newLine.contentArray.push(
+            <div key="advanced-info" className="advanced-info">
+              <div className="advanced-command">dir</div>
+              <div className="dir-description">directory</div>
+              <div className="advanced-command">cd</div>
+              <div className="cd-description">change directory</div>
+            </div>
+          );
           break;
         default:
           newLine.contentArray.push(`${input}: Command not found. For a list of commands, type 'help'.`);
