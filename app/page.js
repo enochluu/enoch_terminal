@@ -136,7 +136,32 @@ const App = () => {
             </div>
           );
           break;
-        // Handle other commands like "portfolio", "resume", etc.
+        case "portfolio":
+          window.open("https://enoch-portfolio.vercel.app/", "_blank");
+          newLine.contentArray.push("Opening portfolio in a new tab!");
+          break;
+        case "resume":
+          window.open("/Resume.pdf", "_blank");
+          newLine.contentArray.push("Opening resume in a new tab!");
+          break;
+        case "contact":
+          newLine.contentArray.push(
+            <div key="contact-info" className="contact-info">
+              <div className="contact-method">email</div>
+              <div className="contact-description">Send me an email.</div>
+              <div className="contact-method">linkedin</div>
+              <div className="contact-description">Connect with me!</div>
+            </div>
+          );
+          break;
+        case "email":
+          window.location.href = "mailto:enochluu9@gmail.com";
+          newLine.contentArray.push("Opening default email client!");
+          break;
+        case "linkedin":
+          window.open("https://www.linkedin.com/in/enochluu/", "_blank");
+          newLine.contentArray.push("Opening my LinkedIn profile in a new tab!");
+          break;
         default:
           newLine.contentArray.push(`${input}: Command not found. For a list of commands, type 'help'.`);
       }
@@ -148,8 +173,6 @@ const App = () => {
     }
   };
   
-  
-
   return (
     <div>
       <div className="min-h-screen p-4" onClick={handleClick}>
