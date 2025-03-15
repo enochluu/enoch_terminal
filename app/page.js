@@ -289,8 +289,9 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                 caretColor: 'transparent',
                 position: 'relative',
                 zIndex: 1,
-                width: '80%',
+                width: '50%',
               }}
+              maxLength={50}
             />
             <div
               ref={caretRef}
