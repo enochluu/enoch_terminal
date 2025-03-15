@@ -13,10 +13,16 @@ const App = () => {
 
   const fileStructure = {
     "~": ["skills"],
-    "~/skills": ["programming", "web development", "cloud technologies"],
-    "~/skills/programming": ["python", "java"],
-    "~/skills/web development": ["React"],
-    "~/skills/cloud technologies": ["Azure"],
+    "~/skills": ["programming", "web development", "cloud technologies", "tools", "scripting", "database management", "cybersecurity", "networking", "IT operations"],
+    "~/skills/programming": ["Python", "Java", "Bash"],
+    "~/skills/web development": ["HTML", "CSS", "Javascript(ReactJS, NextJS)"],
+    "~/skills/cloud technologies": ["Azure Active Directory", "Microsoft 365"],
+    "~/skills/tools": ["Git", "Java", "Bash"],
+    "~/skills/scripting": ["Powershell", "PIA"],
+    "~/skills/database management": ["SQL (PostgreSQL, MySQL)", "MongoDB"],
+    "~/skills/cybersecurity": ["Python", "Java", "Bash"],
+    "~/skills/networking": ["Python", "Java", "Bash"],
+    "~/skills/IT operations": ["Python", "Java", "Bash"],
   };
 
   useEffect(() => {
@@ -108,7 +114,37 @@ const App = () => {
           }
           break;
         case "dir":
-          newLine.contentArray.push(...(fileStructure[currentPath] || []));
+          newLine.contentArray.push(
+            <div 
+              key={`dir-${currentPath}`} 
+              style={{ 
+                display: 'flex', 
+                flexWrap: 'wrap', 
+                whiteSpace: 'pre-wrap',
+                width: '100%'  // Ensures the container spans the full width
+              }}
+            >
+              {fileStructure[currentPath].map((item, idx) => {
+                const isNavigable = fileStructure[currentPath + "/" + item]; // Check if the directory is navigable
+                return (
+                  <span 
+                    key={idx} 
+                    style={{ 
+                      display: 'inline-block', 
+                      marginRight: '20px',
+                      textAlign: 'left', 
+                      backgroundColor: isNavigable ? '#38c72e' : 'transparent',
+                      color: isNavigable ? '#0040C1' : 'inherit',
+                      fontSize: isNavigable ? '1.05em' : 'inherit',
+                      padding: '0.5px',
+                    }}
+                  >
+                    {item}
+                  </span>
+                );
+              })}
+            </div>
+          );
           break;
         case "whois":
           newLine.contentArray.push(
@@ -134,7 +170,7 @@ const App = () => {
               <div className="help-command">contact</div>
               <div className="help-description">Contact me!</div>
               <div className="help-command">advanced</div>
-              <div classname="help-description">Advanced options to see my skills</div>
+              <div classname="help-description">Unlock more ways to see my skills!</div>
             </div>
           );
           break;
@@ -168,9 +204,9 @@ const App = () => {
           newLine.contentArray.push(
             <div key="advanced-info" className="advanced-info">
               <div className="advanced-command">dir</div>
-              <div className="dir-description">directory</div>
+              <div className="dir-description">See what's inside the current directory.</div>
               <div className="advanced-command">cd</div>
-              <div className="cd-description">change directory</div>
+              <div className="cd-description">Navigate to different directories.</div>
             </div>
           );
           break;
@@ -253,7 +289,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                 caretColor: 'transparent',
                 position: 'relative',
                 zIndex: 1,
-                width: 'auto', // Make sure the input doesn't stretch
+                width: '80%',
               }}
             />
             <div
