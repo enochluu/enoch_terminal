@@ -85,19 +85,17 @@ const App = () => {
   
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
-      // Split input on spaces, but handle quoted text as a single argument
-      const args = input.match(/"([^"]+)"|\S+/g) || [];  // This will split on spaces but keep quoted arguments together
+      // Split input into command and arguments, ensuring that quotes are handled for spaces
+      const args = input.match(/"([^"]+)"|\S+/g) || [];
       const command = args[0];
-      const argument = args[1] ? args[1].replace(/"/g, '') : ""; // Remove quotes if present
-  
+      const argument = args.slice(1).join(" ").replace(/^"(.*)"$/, '$1'); // Remove surrounding quotes if any
       const newLine = {
         content: `${prompt}${input}`,
         style: { color: '#00FF00' },
-        contentArray: [], // Content array for output (e.g., help text)
-        directory: currentPath, // Store current directory for this command
+        contentArray: [],
+        directory: currentPath,
       };
-  
-      // Handle the command logic
+
       switch (command) {
         case "cd":
           if (argument === "..") {
@@ -107,15 +105,18 @@ const App = () => {
             } else {
               newLine.contentArray.push(`Directory not found: ${argument}`);
             }
-          } else if (fileStructure[currentPath + "/" + argument]) {
-            setCurrentPath(currentPath + "/" + argument); // Update the current path for the next line
           } else {
-            newLine.contentArray.push(`Directory not found: ${argument}`);
-            // Only show the 'cd ..' hint if you are not at the root directory
-            if (currentPath !== "~") {
-              newLine.contentArray.push("Hint: Try 'dir' to see a valid directory or try 'cd..' to go back a directory");
+            // Check if the directory exists in the file structure
+            const fullPath = currentPath + "/" + argument;
+            if (fileStructure[fullPath]) {
+              setCurrentPath(fullPath); // Update the current path
             } else {
-              newLine.contentArray.push("Hint: Try 'dir' to see a valid directory.");
+              newLine.contentArray.push(`Directory not found: ${argument}`);
+              if (currentPath !== "~") {
+                newLine.contentArray.push("Hint: Try 'dir' to see a valid directory or 'cd ..' to go back.");
+              } else {
+                newLine.contentArray.push("Hint: Try 'dir' to see a valid directory.");
+              }
             }
           }
           break;
