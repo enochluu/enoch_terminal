@@ -20,9 +20,9 @@ const App = () => {
     "~/skills/tools": ["Git", "Java", "Bash"],
     "~/skills/scripting": ["Powershell", "PIA"],
     "~/skills/database management": ["SQL (PostgreSQL, MySQL)", "MongoDB"],
-    "~/skills/cybersecurity": ["Python", "Java", "Bash"],
-    "~/skills/networking": ["Python", "Java", "Bash"],
-    "~/skills/IT operations": ["Python", "Java", "Bash"],
+    "~/skills/cybersecurity": ["Application whitelisting", "Email filtering and whitelisting", "EPP/AV management"],
+    "~/skills/networking": ["Remote access configuration", "Network monitoring", "Wireless Network Management"],
+    "~/skills/IT operations": ["Backup and Disaster Recovery", "Reporting and metrics", "Server Provisioning and Configuration"],
   };
 
   useEffect(() => {
@@ -111,6 +111,12 @@ const App = () => {
             setCurrentPath(currentPath + "/" + argument); // Update the current path for the next line
           } else {
             newLine.contentArray.push(`Directory not found: ${argument}`);
+            // Only show the 'cd ..' hint if you are not at the root directory
+            if (currentPath !== "~") {
+              newLine.contentArray.push("Hint: Try 'dir' to see a valid directory or try 'cd..' to go back a directory");
+            } else {
+              newLine.contentArray.push("Hint: Try 'dir' to see a valid directory.");
+            }
           }
           break;
         case "dir":
@@ -206,12 +212,16 @@ const App = () => {
               <div className="advanced-command">dir</div>
               <div className="dir-description">See what's inside the current directory.</div>
               <div className="advanced-command">cd</div>
-              <div className="cd-description">Navigate to different directories.</div>
+              <div className="cd-description">{"Navigate to different directories. Usage: cd directory_name (e.g., cd skills)"}</div>
             </div>
           );
           break;
         default:
-          newLine.contentArray.push(`${input}: Command not found. For a list of commands, type 'help'.`);
+          if (fileStructure[currentPath] && fileStructure[currentPath].includes(command)) {
+            newLine.contentArray.push(`Hint: Try "cd ${command}" to navigate.`);
+          } else {
+            newLine.contentArray.push(`${input}: Command not found. For a list of commands, type 'help'.`);
+          }
       }
   
       setOutput((prevOutput) => [...prevOutput, newLine]); // Add the output line with the directory
