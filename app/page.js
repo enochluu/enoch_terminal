@@ -310,6 +310,9 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
                 width: '50%',
               }}
               maxLength={50}
+              autoCapitalize="off"
+              autoCorrect="off"
+              spellCheck="false"
             />
             <div
               ref={caretRef}
