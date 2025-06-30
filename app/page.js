@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
+import QRCode from "react-qr-code";
 
 const App = () => {
   const [input, setInput] = useState("");
@@ -188,6 +189,12 @@ const App = () => {
         case "resume":
           window.open("/Resume.pdf", "_blank");
           newLine.contentArray.push("Opening resume in a new tab!");
+          newLine.contentArray.push(
+            <div key="resume-qr" style={{ marginTop: "10px" }}>
+              <div>Or scan this QR code:</div>
+              <QRCode value={`${window.location.origin}/Resume.pdf`} size={128} />
+            </div>
+          );
           break;
         case "contact":
           newLine.contentArray.push(
