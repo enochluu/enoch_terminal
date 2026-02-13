@@ -124,6 +124,38 @@ const App = () => {
     inputRef.current.focus();
   };
 
+  const resolvePath = (basePath, relativePath) => {
+    if (!relativePath) return basePath;
+
+    let fullPath;
+
+    if (relativePath.startsWith("~")) {
+      fullPath = relativePath;
+    } else {
+      fullPath =
+        basePath === "~"
+          ? `~/${relativePath}`
+          : `${basePath}/${relativePath}`;
+    }
+
+    const parts = fullPath.split("/");
+
+    const stack = [];
+
+    for (let part of parts) {
+      if (part === "~") {
+        stack.length = 0;
+        stack.push("~");
+      } else if (part === "..") {
+        if (stack.length > 1) stack.pop();
+      } else if (part !== "." && part !== "") {
+        stack.push(part);
+      }
+    }
+
+    return stack.join("/");
+  };
+
   const handleKeyDown = (e) => {
     const isCharacterKey = e.key.length === 1;
     const isEditingKey = e.key === "Backspace" || e.key === "Delete";
@@ -163,8 +195,9 @@ const App = () => {
   // Filter directories for cd, files for cat
   if (command === "cd") {
     entries = entries.filter(item => fileStructure[`${basePath}/${item}`]);
-  } else {
-    entries = entries.filter(item => !fileStructure[`${basePath}/${item}`]);
+  } else if (command === "cat") {
+    // For cat: allow both directories (for path navigation) and files
+    entries = fileStructure[basePath] || [];
   }
 
   // FIRST TAB PRESS
@@ -217,29 +250,25 @@ const App = () => {
 
       switch (command) {
         case "cd":
-          if (argument === "~") {
-            setCurrentPath("~"); // Go to root
-          } else if (argument === "..") {
-            if (currentPath !== "~") {
-              const parentPath = currentPath.substring(0, currentPath.lastIndexOf("/")) || "~";
-              setCurrentPath(parentPath);
-            } else {
-              newLine.contentArray.push(`Directory not found: ${argument}`);
-            }
+          if (!argument) {
+            setCurrentPath("~");
+            break;
+          }
+
+          const resolvedCdPath = resolvePath(currentPath, argument);
+
+          if (fileStructure[resolvedCdPath]) {
+            setCurrentPath(resolvedCdPath);
           } else {
-            // Check if the directory exists in the file structure
-            const fullPath = currentPath + "/" + argument;
-            if (fileStructure[fullPath]) {
-              setCurrentPath(fullPath); // Update the current path
+            newLine.contentArray.push(`Directory not found: ${argument}`);
+
+            if (currentPath !== "~") {
+              newLine.contentArray.push("Hint: Try 'dir' to see a valid directory or 'cd ..' to go back.");
             } else {
-              newLine.contentArray.push(`Directory not found: ${argument}`);
-              if (currentPath !== "~") {
-                newLine.contentArray.push("Hint: Try 'dir' to see a valid directory or 'cd ..' to go back.");
-              } else {
-                newLine.contentArray.push("Hint: Try 'dir' to see a valid directory.");
-              }
+              newLine.contentArray.push("Hint: Try 'dir' to see a valid directory.");
             }
           }
+
           break;
         case "dir":
           newLine.contentArray.push(
@@ -277,15 +306,21 @@ const App = () => {
         case "cat":
           if (!argument) {
             newLine.contentArray.push("Usage: cat filename");
-          } else {
-            const filePath = currentPath + "/" + argument;
-            const content = fileContents[filePath];
-            if (content) {
-              content.forEach(line => newLine.contentArray.push(line));
-            } else {
-              newLine.contentArray.push(`cat: ${argument}: No such file in current directory`);
-            }
+            break;
           }
+
+          const resolvedFilePath = resolvePath(currentPath, argument);
+
+          if (fileContents[resolvedFilePath]) {
+            fileContents[resolvedFilePath].forEach(line =>
+              newLine.contentArray.push(line)
+            );
+          } else if (fileStructure[resolvedFilePath]) {
+            newLine.contentArray.push(`cat: ${argument}: Is a directory`);
+          } else {
+            newLine.contentArray.push(`cat: ${argument}: No such file in current directory`);
+          }
+
           break;
         case "whois":
           newLine.contentArray.push(
