@@ -135,40 +135,67 @@ const App = () => {
     }
 
   if (e.key === "Tab") {
-    e.preventDefault();
+  e.preventDefault();
 
-    const args = input.trim().split(" ");
-    const command = args[0];
-    const partial = args[1] || "";
+  const args = input.trim().split(" ");
+  const command = args[0];
+  const argument = args[1] || "";
 
-    if (!["cd", "cat"].includes(command)) return;
+  if (!["cd", "cat"].includes(command)) return;
 
-    let entries = fileStructure[currentPath] || [];
+  let basePath = currentPath;
+  let partial = argument;
 
-    if (command === "cd") {
-      entries = entries.filter(item => fileStructure[currentPath + "/" + item]);
-    } else if (command === "cat") {
-      entries = entries.filter(item => !fileStructure[currentPath + "/" + item]);
-    }
+  // Handle nested paths like skills/ or skills/da
+  if (argument.includes("/")) {
+    const lastSlashIndex = argument.lastIndexOf("/");
+    const beforeSlash = argument.substring(0, lastSlashIndex);
+    partial = argument.substring(lastSlashIndex + 1);
 
-    // FIRST TAB PRESS
-    if (tabMatchesRef.current.length === 0) {
-      const matches = entries.filter(item => item.startsWith(partial));
-      if (matches.length === 0) return;
-
-      tabMatchesRef.current = matches;
-      tabIndexRef.current = 0;
-      tabPrefixRef.current = partial; // lock original prefix
-    } else {
-      // CYCLE
-      tabIndexRef.current =
-        (tabIndexRef.current + 1) % tabMatchesRef.current.length;
-    }
-
-    const nextEntry = tabMatchesRef.current[tabIndexRef.current];
-
-    setInput(`${command} ${nextEntry}`);
+    basePath =
+      currentPath === "~"
+        ? `~/${beforeSlash}`
+        : `${currentPath}/${beforeSlash}`;
   }
+
+  let entries = fileStructure[basePath] || [];
+
+  // Filter directories for cd, files for cat
+  if (command === "cd") {
+    entries = entries.filter(item => fileStructure[`${basePath}/${item}`]);
+  } else {
+    entries = entries.filter(item => !fileStructure[`${basePath}/${item}`]);
+  }
+
+  // FIRST TAB PRESS
+  if (tabMatchesRef.current.length === 0) {
+    const matches = entries.filter(item => item.startsWith(partial));
+    if (matches.length === 0) return;
+
+    tabMatchesRef.current = matches;
+    tabIndexRef.current = 0;
+    tabPrefixRef.current = partial;
+  } else {
+    // CYCLE
+    tabIndexRef.current =
+      (tabIndexRef.current + 1) % tabMatchesRef.current.length;
+  }
+
+  const match = tabMatchesRef.current[tabIndexRef.current];
+
+  // rebuild full argument correctly
+  let newArgument;
+
+  if (argument.includes("/")) {
+    const beforeSlash = argument.substring(0, argument.lastIndexOf("/") + 1);
+    newArgument = beforeSlash + match;
+  } else {
+    newArgument = match;
+  }
+
+  setInput(`${command} ${newArgument}`);
+}
+
 
 
 
