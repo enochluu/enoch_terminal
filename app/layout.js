@@ -12,8 +12,8 @@ const cascadiacode = localFont({
 })
 
 export const metadata = {
-  title: "Enoch Luu | Computer Science Graduate | Portfolio, Resume, LinkedIn",
-  description: "Welcome to the personal website of Enoch Luu, a Computer Science graduate from UNSW Sydney. Explore my portfolio, view my resume, and connect with me on LinkedIn. Discover my projects, skills, and professional journey.",
+  title: "Enoch Luu | Cyber Security Technician | Skills, Resume, LinkedIn",
+  description: "Welcome to the personal website of Enoch Luu, a Computer Science graduate from UNSW Sydney. Explore my web portfolio, view my resume, and connect with me on LinkedIn. Discover my projects, skills, and professional journey.",
   icons: {
     icon: '/icon.png',
   },

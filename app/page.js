@@ -171,8 +171,6 @@ const App = () => {
               <div className="help-description">Who are you?</div>
               <div className="help-command">help</div>
               <div className="help-description">For the list of available commands... again??</div>
-              <div className="help-command">portfolio</div>
-              <div className="help-description">Check out my portfolio website!</div>
               <div className="help-command">resume</div>
               <div className="help-description">Have a look at my resume.</div>
               <div className="help-command">contact</div>
@@ -181,10 +179,6 @@ const App = () => {
               <div classname="help-description">Unlock more ways to see my skills!</div>
             </div>
           );
-          break;
-        case "portfolio":
-          window.open("https://enoch-portfolio.vercel.app/", "_blank");
-          newLine.contentArray.push("Opening portfolio in a new tab!");
           break;
         case "resume":
           window.open("/Resume.pdf", "_blank");
