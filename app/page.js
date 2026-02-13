@@ -12,18 +12,56 @@ const App = () => {
   const prompt = "visitor@enochluu.com:~$";
   const [currentPath, setCurrentPath] = useState("~");
 
+  const tabMatchesRef = useRef([]);
+  const tabIndexRef = useRef(0);
+  const tabPrefixRef = useRef("");
+
   const fileStructure = {
-    "~": ["skills"],
-    "~/skills": ["programming", "web development", "cloud technologies", "tools", "scripting", "database management", "cybersecurity", "networking", "IT operations"],
-    "~/skills/programming": ["Python", "Java", "Bash"],
-    "~/skills/web development": ["HTML", "CSS", "Javascript(ReactJS, NextJS)"],
-    "~/skills/cloud technologies": ["Azure Active Directory", "Microsoft 365"],
-    "~/skills/tools": ["Git", "Java", "Bash"],
-    "~/skills/scripting": ["Powershell", "PIA"],
-    "~/skills/database management": ["SQL (PostgreSQL, MySQL)", "MongoDB"],
-    "~/skills/cybersecurity": ["Application whitelisting", "Email filtering and whitelisting", "EPP/AV management"],
-    "~/skills/networking": ["Remote access configuration", "Network monitoring", "Wireless Network Management"],
-    "~/skills/IT operations": ["Backup and Disaster Recovery", "Reporting and metrics", "Server Provisioning and Configuration"],
+    "~": ["skills", "experience", "certifications"],
+
+    // Skills
+    "~/skills": ["programming", "cloud", "tools"],
+
+    "~/skills/programming": ["Python.txt", "Bash.txt", "Java.txt"],
+    "~/skills/cloud": ["AzureAD.txt", "Microsoft365.txt"],
+    "~/skills/tools": ["Git.txt", "PowerShell.txt"],
+
+    // Experience
+    "~/experience": ["ManagedServices_Tech.txt", "CyberSecurity_Tech.txt"],
+
+    // Certifications
+    "~/certifications": ["AzureFundamentals.txt", "Microsoft365Admin.txt"],
+  };
+
+  const fileContents = {
+    // Programming
+    "~/skills/programming/Python.txt": ["Proficient in Python for automation, scripts, and small apps."],
+    "~/skills/programming/Bash.txt": ["Experienced with Bash scripting for Linux/Windows environments."],
+    "~/skills/programming/Java.txt": ["Java experience for small projects and coursework."],
+
+    // Cloud
+    "~/skills/cloud/AzureAD.txt": ["Managed users, groups, and devices in Azure Active Directory."],
+    "~/skills/cloud/Microsoft365.txt": ["Administered Microsoft 365, Exchange Online, Teams, and SharePoint."],
+
+    // Tools
+    "~/skills/tools/Git.txt": ["Used Git for version control and collaborative projects."],
+    "~/skills/tools/PowerShell.txt": ["Automated administrative tasks with PowerShell scripts."],
+
+    // Experience
+    "~/experience/ManagedServices_Tech.txt": [
+      "Worked as a Managed Services Technician.",
+      "Monitored and troubleshot backups, endpoints, and servers.",
+      "Provided helpdesk support and assisted cybersecurity team with email filtering and whitelisting."
+    ],
+    "~/experience/CyberSecurity_Tech.txt": [
+      "Supported SOC team by managing email security and whitelisting rules.",
+      "Assisted with endpoint protection monitoring and basic incident response tasks.",
+      "Configured alerts and monitored logs for security events."
+    ],
+
+    // Certifications
+    "~/certifications/AzureFundamentals.txt": ["Microsoft Azure Fundamentals (AZ-900)"],
+    "~/certifications/Microsoft365Admin.txt": ["Microsoft 365 Administration Experience"],
   };
 
   useEffect(() => {
@@ -85,6 +123,42 @@ const App = () => {
   };
   
   const handleKeyDown = (e) => {
+    if (e.key === "Tab") {
+      e.preventDefault();
+
+      const command = input.trim().split(" ")[0];
+      
+      // If no command, do nothing
+      if (!command) return;
+
+      let entries = fileStructure[currentPath] || [];
+
+      // 'cd' = directories only, 'cat' = files only
+      if (command === "cd") {
+        entries = entries.filter(item => fileStructure[currentPath + "/" + item]);
+      } else if (command === "cat") {
+        entries = entries.filter(item => !fileStructure[currentPath + "/" + item]);
+      }
+
+      // If no entries, do nothing
+      if (entries.length === 0) return;
+
+      if (!tabMatchesRef.current || tabMatchesRef.current.length === 0) {
+        tabMatchesRef.current = entries.slice(); // copy current entries
+        tabIndexRef.current = 0;
+      } else {
+        tabIndexRef.current = (tabIndexRef.current + 1) % entries.length;
+      }
+
+      const nextEntry = tabMatchesRef.current[tabIndexRef.current];
+      setInput(command === "cd" || command === "cat" ? `${command} ${nextEntry}` : nextEntry);
+    }
+
+
+
+
+
+
     if (e.key === "Enter") {
       // Split input into command and arguments, ensuring that quotes are handled for spaces
       const args = input.match(/"([^"]+)"|\S+/g) || [];
@@ -99,7 +173,9 @@ const App = () => {
 
       switch (command) {
         case "cd":
-          if (argument === "..") {
+          if (argument === "~") {
+            setCurrentPath("~"); // Go to root
+          } else if (argument === "..") {
             if (currentPath !== "~") {
               const parentPath = currentPath.substring(0, currentPath.lastIndexOf("/")) || "~";
               setCurrentPath(parentPath);
@@ -154,6 +230,19 @@ const App = () => {
             </div>
           );
           break;
+        case "cat":
+          if (!argument) {
+            newLine.contentArray.push("Usage: cat filename");
+          } else {
+            const filePath = currentPath + "/" + argument;
+            const content = fileContents[filePath];
+            if (content) {
+              content.forEach(line => newLine.contentArray.push(line));
+            } else {
+              newLine.contentArray.push(`cat: ${argument}: No such file in current directory`);
+            }
+          }
+          break;
         case "whois":
           newLine.contentArray.push(
             "Hi, I'm Enoch. I'm a Computer Science graduate from UNSW Sydney who has a passion for coding."
@@ -171,6 +260,7 @@ const App = () => {
               <div className="help-description">Who are you?</div>
               <div className="help-command">help</div>
               <div className="help-description">For the list of available commands... again??</div>
+
               <div className="help-command">resume</div>
               <div className="help-description">Have a look at my resume.</div>
               <div className="help-command">contact</div>
@@ -215,12 +305,24 @@ const App = () => {
               <div className="dir-description">See what's inside the current directory.</div>
               <div className="advanced-command">cd</div>
               <div className="cd-description">{"Navigate to different directories. Usage: cd directory_name (e.g., cd skills)"}</div>
+              <div className="advanced-command">cat</div>
+              <div className="cat-description">View the contents of a file. Usage: cat filename.txt</div>
             </div>
           );
           break;
         default:
           if (fileStructure[currentPath] && fileStructure[currentPath].includes(command)) {
-            newLine.contentArray.push(`Hint: Try "cd ${command}" to navigate.`);
+            const fullPath = currentPath + "/" + command;
+            if (fileStructure[fullPath]) {
+              // It's a directory
+              newLine.contentArray.push(`Hint: Try "cd ${command}" to navigate into this directory.`);
+            } else if (command.toLowerCase().endsWith(".txt")) {
+              // It's a file
+              newLine.contentArray.push(`Hint: Try "cat ${command}" to view the contents of this file.`);
+            } else {
+              // Other types of files
+              newLine.contentArray.push(`Cannot perform action on "${command}".`);
+            }
           } else {
             newLine.contentArray.push(`${input}: Command not found. For a list of commands, type 'help'.`);
           }
@@ -228,6 +330,9 @@ const App = () => {
   
       setOutput((prevOutput) => [...prevOutput, newLine]); // Add the output line with the directory
       setInput("");
+      tabMatchesRef.current = [];
+      tabIndexRef.current = 0;
+      tabPrefixRef.current = "";
     } else {
       setShowCaret(true); // Show caret when typing
     }
@@ -293,7 +398,9 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
               ref={inputRef}
               type="text"
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(e) => {
+                setInput(e.target.value);
+              }}
               onKeyDown={handleKeyDown}
               className={`bg-transparent border-none outline-none`}
               style={{
