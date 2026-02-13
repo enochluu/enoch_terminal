@@ -15,6 +15,7 @@ const App = () => {
   const tabMatchesRef = useRef([]);
   const tabIndexRef = useRef(0);
   const tabPrefixRef = useRef("");
+  const lastPartialRef = useRef("");
 
   const fileStructure = {
     "~": ["skills", "experience", "certifications"],
@@ -31,6 +32,7 @@ const App = () => {
 
     // Certifications
     "~/certifications": ["AzureFundamentals.txt", "Microsoft365Admin.txt"],
+
   };
 
   const fileContents = {
@@ -121,38 +123,53 @@ const App = () => {
   const handleClick = () => {
     inputRef.current.focus();
   };
-  
+
   const handleKeyDown = (e) => {
-    if (e.key === "Tab") {
-      e.preventDefault();
+    const isCharacterKey = e.key.length === 1;
+    const isEditingKey = e.key === "Backspace" || e.key === "Delete";
 
-      const command = input.trim().split(" ")[0];
-      
-      // If no command, do nothing
-      if (!command) return;
-
-      let entries = fileStructure[currentPath] || [];
-
-      // 'cd' = directories only, 'cat' = files only
-      if (command === "cd") {
-        entries = entries.filter(item => fileStructure[currentPath + "/" + item]);
-      } else if (command === "cat") {
-        entries = entries.filter(item => !fileStructure[currentPath + "/" + item]);
-      }
-
-      // If no entries, do nothing
-      if (entries.length === 0) return;
-
-      if (!tabMatchesRef.current || tabMatchesRef.current.length === 0) {
-        tabMatchesRef.current = entries.slice(); // copy current entries
-        tabIndexRef.current = 0;
-      } else {
-        tabIndexRef.current = (tabIndexRef.current + 1) % entries.length;
-      }
-
-      const nextEntry = tabMatchesRef.current[tabIndexRef.current];
-      setInput(command === "cd" || command === "cat" ? `${command} ${nextEntry}` : nextEntry);
+    if (isCharacterKey || isEditingKey) {
+      tabMatchesRef.current = [];
+      tabIndexRef.current = 0;
+      tabPrefixRef.current = "";
     }
+
+  if (e.key === "Tab") {
+    e.preventDefault();
+
+    const args = input.trim().split(" ");
+    const command = args[0];
+    const partial = args[1] || "";
+
+    if (!["cd", "cat"].includes(command)) return;
+
+    let entries = fileStructure[currentPath] || [];
+
+    if (command === "cd") {
+      entries = entries.filter(item => fileStructure[currentPath + "/" + item]);
+    } else if (command === "cat") {
+      entries = entries.filter(item => !fileStructure[currentPath + "/" + item]);
+    }
+
+    // FIRST TAB PRESS
+    if (tabMatchesRef.current.length === 0) {
+      const matches = entries.filter(item => item.startsWith(partial));
+      if (matches.length === 0) return;
+
+      tabMatchesRef.current = matches;
+      tabIndexRef.current = 0;
+      tabPrefixRef.current = partial; // lock original prefix
+    } else {
+      // CYCLE
+      tabIndexRef.current =
+        (tabIndexRef.current + 1) % tabMatchesRef.current.length;
+    }
+
+    const nextEntry = tabMatchesRef.current[tabIndexRef.current];
+
+    setInput(`${command} ${nextEntry}`);
+  }
+
 
 
 
@@ -398,9 +415,9 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
               ref={inputRef}
               type="text"
               value={input}
-              onChange={(e) => {
-                setInput(e.target.value);
-              }}
+            onChange={(e) => {
+              setInput(e.target.value);
+            }}
               onKeyDown={handleKeyDown}
               className={`bg-transparent border-none outline-none`}
               style={{
