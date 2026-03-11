@@ -113,7 +113,12 @@ const App = () => {
       caretEle.style.transform = `translate(${caretPosition}px, -50%)`;
     };
     
-    updateCaretPosition(); // Update on initial mount
+    // Wait for fonts to load before first caret update
+    document.fonts.ready.then(() => {
+      updateCaretPosition();
+    });
+
+    // updateCaretPosition(); // Update on initial mount
     document.addEventListener('selectionchange', updateCaretPosition);
     
     return () => document.removeEventListener('selectionchange', updateCaretPosition);
