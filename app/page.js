@@ -18,17 +18,17 @@ const App = () => {
   const lastPartialRef = useRef("");
 
   const fileStructure = {
-    "~": ["skills", "experience", "certifications"],
+    "~": ["certifications","experience", "skills"],
 
     // Skills
-    "~/skills": ["programming", "cloud", "tools"],
+    "~/skills": ["cloud", "programming", "tools"],
 
-    "~/skills/programming": ["Python.txt", "Bash.txt", "Java.txt"],
     "~/skills/cloud": ["AzureAD.txt", "Microsoft365.txt"],
+    "~/skills/programming": ["Python.txt", "Bash.txt", "Java.txt"],
     "~/skills/tools": ["Git.txt", "PowerShell.txt"],
 
     // Experience
-    "~/experience": ["ManagedServices_Tech.txt", "CyberSecurity_Tech.txt"],
+    "~/experience": ["CyberSecurity_Tech.txt", "ManagedServices_Tech.txt"],
 
     // Certifications
     "~/certifications": ["AzureFundamentals.txt", "Microsoft365Admin.txt"],
@@ -228,13 +228,6 @@ const App = () => {
 
   setInput(`${command} ${newArgument}`);
 }
-
-
-
-
-
-
-
 
     if (e.key === "Enter") {
       // Split input into command and arguments, ensuring that quotes are handled for spaces
