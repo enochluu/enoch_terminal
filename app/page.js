@@ -17,6 +17,9 @@ const App = () => {
   const tabPrefixRef = useRef("");
   const lastPartialRef = useRef("");
 
+  const [commandHistory, setCommandHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+
   const fileStructure = {
     "~": ["certifications","experience", "skills"],
 
@@ -162,6 +165,42 @@ const App = () => {
   };
 
   const handleKeyDown = (e) => {
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      const newIndex = Math.min(historyIndex + 1, commandHistory.length - 1);
+      setHistoryIndex(newIndex);
+      setInput(commandHistory[newIndex] || "");
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const newIndex = Math.max(historyIndex - 1, -1);
+      setHistoryIndex(newIndex);
+      setInput(newIndex === -1 ? "" : commandHistory[newIndex]);
+    } else if (e.key === "Enter") {
+      // your existing Enter logic, then add:
+      setCommandHistory(prev => [input, ...prev].slice(0, 50));
+      setHistoryIndex(-1);
+    } else if (e.key === "l" && e.ctrlKey) {
+      e.preventDefault();
+      setOutput([]);
+      setInput("");
+      return;
+    } else if (e.key === "c" && e.ctrlKey) {
+      e.preventDefault();
+      setOutput(prev => [...prev, { 
+        type: "command", 
+        content: `${prompt}${input}^C`,
+        contentArray: [],
+        directory: currentPath 
+      }]);
+      setInput("");
+      return;
+    } else if (e.key === "u" && e.ctrlKey) {
+      e.preventDefault();
+      setInput("");
+      return;
+    }
+    
     const isCharacterKey = e.key.length === 1;
     const isEditingKey = e.key === "Backspace" || e.key === "Delete";
 
@@ -343,7 +382,7 @@ const App = () => {
               <div className="help-command">contact</div>
               <div className="help-description">Contact me!</div>
               <div className="help-command">advanced</div>
-              <div classname="help-description">Unlock more ways to see my skills!</div>
+              <div className="help-description">Unlock more ways to see my skills!</div>
             </div>
           );
           break;
@@ -374,6 +413,13 @@ const App = () => {
         case "linkedin":
           window.open("https://www.linkedin.com/in/enochluu/", "_blank");
           newLine.contentArray.push("Opening my LinkedIn profile in a new tab!");
+          break;
+        case "clear":
+          setOutput([]);
+          setInput("");
+          return;
+        case "sudo":
+          newLine.contentArray.push("Nice try.");
           break;
         case "advanced":
           newLine.contentArray.push(
@@ -494,6 +540,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             />
             <div
               ref={caretRef}
+              suppressHydrationWarning
               className={`custom-caret ${showCaret ? 'visible' : 'hidden'}`}
               style={{
                 width: '0.6em',

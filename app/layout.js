@@ -4,11 +4,12 @@ import "./globals.css";
 const cascadiacode = localFont({
   src: [
     {
-      path: '../public/fonts/CascadiaCode.ttf',
+      path: '../public/fonts/CascadiaCode-Light.woff2',
       weight: '300'
     }
   ],
-  variable: '--font-cascadiacode'
+  variable: '--font-cascadiacode',
+  display: 'block'
 })
 
 export const metadata = {
