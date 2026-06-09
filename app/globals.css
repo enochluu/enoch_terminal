@@ -82,6 +82,18 @@ input {
   padding-left: 2rem;
 }
 
+.text-green { 
+  color: #56D64D; 
+}
+
+.text-blue  { 
+  color: #327CFF; 
+}
+
+.text-white { 
+  color: white; 
+}
+
 @media (max-width: 576px) {
   .ascii-art {
     font-size: 9px;

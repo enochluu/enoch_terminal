@@ -451,11 +451,11 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
           <div>For a list of available commands, type 'help'.</div>
           {output.map((line, index) => (
             <div key={index}>
-              <span style={{ color: '#56D64D' }}>visitor@enochluu.com</span>
-              <span style={{ color: 'white' }}>:</span>
+              <span className="text-green">visitor@enochluu.com</span>
+              <span className="text-white">:</span>
               {/* Use the stored directory for each line */}
-              <span style={{ color: '#327CFF' }}>{line.directory}</span>
-              <span style={{ color: 'white' }}>$</span>
+              <span className="text-blue">{line.directory}</span>
+              <span className="text-white">$</span>
               <span> {line.content.slice(prompt.length)}</span>
               {line.contentArray.map((content, idx) => (
                 <div key={idx}>{content}</div>
@@ -463,11 +463,11 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             </div>
           ))}
           <div className="flex" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <span style={{ color: '#56D64D' }}>visitor@enochluu.com</span>
-            <span style={{ color: 'white' }}>:</span>
+            <span className="text-green">visitor@enochluu.com</span>
+            <span className="text-white">:</span>
             {/* Display the currentPath as the directory in the input prompt */}
-            <span style={{ color: '#327CFF' }}>{currentPath}</span>
-            <span style={{ color: 'white' }}>$</span>
+            <span className="text-blue">{currentPath}</span>
+            <span className="text-white">$</span>
             <span>&nbsp;</span>
             <label htmlFor="commandInput" className="sr-only">Command Input:</label>
             <input
