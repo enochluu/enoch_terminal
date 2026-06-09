@@ -21,51 +21,220 @@ const App = () => {
   const [historyIndex, setHistoryIndex] = useState(-1);
 
   const fileStructure = {
-    "~": ["certifications","experience", "skills"],
+    "~": ["experience", "projects", "skills"],
 
     // Skills
-    "~/skills": ["cloud", "programming", "tools"],
+    "~/skills": ["cloud", "development", "security", "systems"],
 
-    "~/skills/cloud": ["AzureAD.txt", "Microsoft365.txt"],
-    "~/skills/programming": ["Python.txt", "Bash.txt", "Java.txt"],
-    "~/skills/tools": ["Git.txt", "PowerShell.txt"],
+    "~/skills/cloud": [
+      "Defender.txt",
+      "EntraID.txt",
+      "Exchange.txt",
+      "Intune.txt",
+      "Microsoft365.txt",
+      "Purview.txt"
+    ],
+    "~/skills/development": [
+      "Bash.txt",
+      "Java.txt",
+      "JavaScript.txt",
+      "PowerShell.txt",
+      "Python.txt",
+      "WebFrontend.txt"
+    ],
+    "~/skills/security": [
+      "IncidentResponse.txt",
+      "ISO27001.txt",
+      "SecurityUplift.txt",
+      "Threats.txt",
+      "VulnerabilityManagement.txt"
+    ],
+
+    "~/skills/systems": [
+      "ActiveDirectory.txt",
+      "Backups.txt",
+      "Firewalls.txt",
+      "Git.txt",
+      "Networking.txt",
+      "RDS.txt",
+      "Virtualisation.txt",
+      "WindowsServer.txt"
+    ],
 
     // Experience
     "~/experience": ["CyberSecurity_Tech.txt", "ManagedServices_Tech.txt"],
 
-    // Certifications
-    "~/certifications": ["AzureFundamentals.txt", "Microsoft365Admin.txt"],
+    // Projects
+    "~/projects": ["CrowdWeave.txt", "DIMYProtocol.txt", "KB_AI_Assistant.txt", "TripCollab.txt", "TerminalPortfolio.txt"]
 
   };
 
   const fileContents = {
-    // Programming
-    "~/skills/programming/Python.txt": ["Proficient in Python for automation, scripts, and small apps."],
-    "~/skills/programming/Bash.txt": ["Experienced with Bash scripting for Linux/Windows environments."],
-    "~/skills/programming/Java.txt": ["Java experience for small projects and coursework."],
+    // Development
+    "~/skills/development/Python.txt": [
+      "Python used for automation, scripting, backend tooling, and security-related utilities."
+    ],
+
+    "~/skills/development/Java.txt": [
+      "Java experience from academic and project-based software development."
+    ],
+
+    "~/skills/development/Bash.txt": [
+      "Shell scripting for Linux and Windows environments for automation and system tasks."
+    ],
+
+    "~/skills/development/JavaScript.txt": [
+      "JavaScript used for frontend development and interactive web applications."
+    ],
+
+    "~/skills/development/WebFrontend.txt": [
+      "Frontend development using HTML, CSS, and React for building responsive and interactive user interfaces."
+    ],
+
+    "~/skills/development/PowerShell.txt": [
+      "Automation scripting for Windows environments including system administration, user management, and remediation workflows such as failover and recovery scripts."
+    ],
+
 
     // Cloud
-    "~/skills/cloud/AzureAD.txt": ["Managed users, groups, and devices in Azure Active Directory."],
-    "~/skills/cloud/Microsoft365.txt": ["Administered Microsoft 365, Exchange Online, Teams, and SharePoint."],
+    "~/skills/cloud/EntraID.txt": [
+      "Identity and access management including users, groups, roles, authentication policies, and Conditional Access in Entra ID."
+    ],
 
-    // Tools
-    "~/skills/tools/Git.txt": ["Used Git for version control and collaborative projects."],
-    "~/skills/tools/PowerShell.txt": ["Automated administrative tasks with PowerShell scripts."],
+    "~/skills/cloud/Microsoft365.txt": [
+      "Administration of Microsoft 365 services including Teams, SharePoint, Exchange Online, and endpoint configuration."
+    ],
+
+    "~/skills/cloud/Exchange.txt": [
+      "Email system administration including mail flow troubleshooting, mailbox management, and filtering policies."
+    ],
+
+    "~/skills/cloud/Intune.txt": [
+      "Endpoint management including device compliance, configuration profiles, application deployment, and policy enforcement."
+    ],
+
+    "~/skills/cloud/Defender.txt": [
+      "Security operations using Microsoft Defender across endpoints, identity, and cloud workloads including alert investigation and response."
+    ],
+
+    "~/skills/cloud/Purview.txt": [
+      "Data governance and compliance including sensitivity labels, data loss prevention, and information protection policies."
+    ],
+
+    // Systems
+    "~/skills/systems/Virtualisation.txt": [
+      "VMware and Hyper-V virtualisation including VM provisioning, management, performance troubleshooting, and infrastructure support."
+    ],
+
+    "~/skills/systems/WindowsServer.txt": [
+      "Administration of Windows Server environments including services, Active Directory integration, and system troubleshooting."
+    ],
+
+    "~/skills/systems/Backups.txt": [
+      "Backup and disaster recovery administration using platforms such as Datto and Acronis including BCDR operations."
+    ],
+
+    "~/skills/systems/Networking.txt": [
+      "Networking fundamentals including DNS, DHCP, routing, VPNs, and connectivity troubleshooting."
+    ],
+
+    "~/skills/systems/Firewalls.txt": [
+      "Firewall rule management, NAT configuration, and network traffic troubleshooting in enterprise environments."
+    ],
+
+    "~/skills/systems/Git.txt": [
+      "Version control using Git for collaboration, branching, and repository management."
+    ],
+
+    "~/skills/systems/ActiveDirectory.txt": [
+      "On-prem Active Directory administration including user, group, policy, and access management."
+    ],
+
+    "~/skills/systems/RDS.txt": [
+      "Remote Desktop Services administration including session host management, user access, and troubleshooting."
+    ],
+
+    // Security
+    "~/skills/security/IncidentResponse.txt": [
+      "Security incident triage, investigation, containment, and remediation in enterprise environments."
+    ],
+
+    "~/skills/security/Threats.txt": [
+      "Threat monitoring including phishing analysis, security alert triage, and investigation of suspicious activity."
+    ],
+
+    "~/skills/security/VulnerabilityManagement.txt": [
+      "Identification, assessment, and remediation of system and application vulnerabilities."
+    ],
+
+    "~/skills/security/ISO27001.txt": [
+      "ISO 27001 aligned security practices including risk management and support for compliance controls."
+    ],
+
+    "~/skills/security/SecurityUplift.txt": [
+      "Security posture improvement initiatives including hardening, policy improvements, and configuration enhancements."
+    ],
 
     // Experience
     "~/experience/ManagedServices_Tech.txt": [
-      "Backup monitoring, remediation, troubleshooting, and BCDR operations.",
-      "Incident response support for network, server, and virtualised infrastructure issues.",
+      "- Backup monitoring, remediation, troubleshooting, and BCDR operations.",
+      "- Incident response support for network, server, and virtualised infrastructure issues.",
     ],
     "~/experience/CyberSecurity_Tech.txt": [
-      "Security consultation and uplift including Microsoft 365 hardening, IR planning and ISO 27001 support.",
-      "Vulnerability management, threat monitoring, and risk remediation.",
-      "Incident response support covering threat investigation, triage, and containment."
+      "- Security consultation and uplift including Microsoft 365 hardening, IR planning and ISO 27001 support.",
+      "- Vulnerability management, threat monitoring, and risk remediation.",
+      "- Incident response support covering threat investigation, triage, and containment."
     ],
 
-    // Certifications
-    "~/certifications/AzureFundamentals.txt": ["Microsoft Azure Fundamentals (AZ-900)"],
-    "~/certifications/Microsoft365Admin.txt": ["Microsoft 365 Administration Experience"],
+    // Projects
+    "~/projects/CrowdWeave.txt": [
+      "COVID-era safety scoring platform using Google Places API and NSW Health data. Built risk assessment logic to generate real-time location safety scores, with production-style deployment using NGINX and Jenkins."
+    ],
+
+    "~/projects/DIMYProtocol.txt": [
+      "Network security and cryptography simulation exploring secure communication protocols and attack vectors. Implemented SHA-256 hashing, Diffie-Hellman key exchange, and Shamir Secret Sharing, alongside simulations of relay attacks, packet manipulation, and denial-of-service scenarios to evaluate protocol resilience."
+    ],
+
+    "~/projects/KB_AI_Assistant.txt": [
+      "Retrieval-Augmented Generation (RAG) knowledge base assistant using Sentence Transformers for embeddings, FAISS for vector similarity search, and cross-encoder reranking for improved relevance."
+    ],
+
+    "~/projects/TripCollab.txt": [
+      "Collaborative trip planning platform built with NextJS, Flask, PostgreSQL and Redis. Implemented backend APIs for group coordination, with caching and data persistence for scalable shared itineraries."
+    ],
+
+    "~/projects/TerminalPortfolio.txt": [
+      "Interactive terminal-themed portfolio website supporting navigation, file viewing and custom commands. If you're reading this, the website is still running. That's a good sign."
+    ]
+  };
+
+  const certificationSummaries = {
+    "CrowdWeave.txt":
+      "Real-time COVID safety scoring system using external health and location data APIs."
+    };
+
+  const experienceSummaries = {
+    "CyberSecurity_Tech.txt":
+      "Security operations including incident response, vulnerability management, and threat investigation",
+    "ManagedServices_Tech.txt":
+      "Infrastructure, server and VM support including backups, monitoring, and enterprise incident response"
+    };
+
+  const projectSummaries = {
+    "CrowdWeave.txt":
+      "Real-time COVID safety scoring system using external health and location data APIs.",
+
+    "DIMYProtocol.txt":
+      "Network security and cryptography simulation exploring secure communication and attack vectors.",
+
+    "KB_AI_Assistant.txt":
+      "AI-powered knowledge base assistant with semantic search, document retrieval, and source-cited answers.",
+
+    "TripCollab.txt":
+      "Group travel planning platform with Flask, PostgreSQL and Redis backend services.",
+
+    "TerminalPortfolio.txt":
+      "Interactive command-line portfolio website with virtual file system and custom command parser."
   };
 
   useEffect(() => {
@@ -307,30 +476,52 @@ const App = () => {
 
           break;
         case "dir":
-        case "ls":
+        case "ls": {
+          const summaries =
+            currentPath === "~/projects"
+              ? projectSummaries
+              : currentPath === "~/experience"
+              ? experienceSummaries
+              : currentPath === "~/certifications"
+              ? certificationSummaries
+              : null;
+
           newLine.contentArray.push(
-            <div 
-              key={`dir-${currentPath}`} 
-              style={{ 
-                display: 'flex', 
-                flexWrap: 'wrap', 
-                whiteSpace: 'pre-wrap',
-                width: '100%'  // Ensures the container spans the full width
+            <div
+              key={`ls-${currentPath}`}
+              style={{
+                display: "flex",
+                flexDirection: summaries ? "column" : "row",
+                flexWrap: summaries ? "nowrap" : "wrap",
+                gap: summaries ? "10px" : "0px",
+                whiteSpace: "pre-wrap",
+                width: "100%"
               }}
             >
               {fileStructure[currentPath].map((item, idx) => {
-                const isNavigable = fileStructure[currentPath + "/" + item]; // Check if the directory is navigable
-                return (
-                  <span 
-                    key={idx} 
-                    style={{ 
-                      display: 'inline-block', 
-                      marginRight: '20px',
-                      textAlign: 'left', 
-                      backgroundColor: isNavigable ? '#38c72e' : 'transparent',
-                      color: isNavigable ? '#0040C1' : 'inherit',
-                      fontSize: isNavigable ? '1.05em' : 'inherit',
-                      padding: '0.5px',
+                const filePath = `${currentPath}/${item}`;
+                const excerpt = summaries?.[item] || "";
+                const isNavigable = fileStructure[filePath];
+
+                return summaries ? (
+                  <div key={idx}>
+                    <div>{item}</div>
+                    {excerpt && (
+                      <div style={{ marginLeft: "16px", opacity: 0.75 }}>
+                        {excerpt}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <span
+                    key={idx}
+                    style={{
+                      display: "inline-block",
+                      marginRight: "20px",
+                      textAlign: "left",
+                      backgroundColor: isNavigable ? "#38c72e" : "transparent",
+                      color: isNavigable ? "#0040C1" : "inherit",
+                      padding: "0.5px"
                     }}
                   >
                     {item}
@@ -339,7 +530,9 @@ const App = () => {
               })}
             </div>
           );
+
           break;
+          }
         case "cat":
           if (!argument) {
             newLine.contentArray.push("Usage: cat filename");
@@ -349,8 +542,12 @@ const App = () => {
           const resolvedFilePath = resolvePath(currentPath, argument);
 
           if (fileContents[resolvedFilePath]) {
-            fileContents[resolvedFilePath].forEach(line =>
-              newLine.contentArray.push(line)
+            newLine.contentArray.push(
+              <div className="cat-output">
+                {fileContents[resolvedFilePath].map((line, idx) => (
+                  <div key={idx}>{line}</div>
+                ))}
+              </div>
             );
           } else if (fileStructure[resolvedFilePath]) {
             newLine.contentArray.push(`cat: ${argument}: Is a directory`);
