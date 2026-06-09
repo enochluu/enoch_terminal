@@ -299,14 +299,15 @@ const App = () => {
             newLine.contentArray.push(`Directory not found: ${argument}`);
 
             if (currentPath !== "~") {
-              newLine.contentArray.push("Hint: Try 'dir' to see a valid directory or 'cd ..' to go back.");
+              newLine.contentArray.push("Hint: Try 'dir' or 'ls' to see a valid directory or 'cd ..' to go back.");
             } else {
-              newLine.contentArray.push("Hint: Try 'dir' to see a valid directory.");
+              newLine.contentArray.push("Hint: Try 'dir' or 'ls' to see a valid directory.");
             }
           }
 
           break;
         case "dir":
+        case "ls":
           newLine.contentArray.push(
             <div 
               key={`dir-${currentPath}`} 
@@ -424,11 +425,11 @@ const App = () => {
           newLine.contentArray.push(
             <div key="advanced-info" className="advanced-info">
               <div className="advanced-command">dir</div>
-              <div className="dir-description">See what's inside the current directory.</div>
+              <div className="dir-description">See what's inside the current directory. 'ls' is also accepted for users who refuse to type three letters.</div>
               <div className="advanced-command">cd</div>
               <div className="cd-description">{"Navigate to different directories. Usage: cd directory_name (e.g., cd skills)"}</div>
               <div className="advanced-command">cat</div>
-              <div className="cat-description">View the contents of a file. Usage: cat filename.txt</div>
+              <div className="cat-description">{"View the contents of a file. Usage: cat file_name (e.g., cat filename.txt)"}</div>
             </div>
           );
           break;
