@@ -54,14 +54,13 @@ const App = () => {
 
     // Experience
     "~/experience/ManagedServices_Tech.txt": [
-      "Worked as a Managed Services Technician.",
-      "Monitored and troubleshot backups, endpoints, and servers.",
-      "Provided helpdesk support and assisted cybersecurity team with email filtering and whitelisting."
+      "Backup monitoring, remediation, troubleshooting, and BCDR operations.",
+      "Incident response support for network, server, and virtualised infrastructure issues.",
     ],
     "~/experience/CyberSecurity_Tech.txt": [
-      "Supported SOC team by managing email security and whitelisting rules.",
-      "Assisted with endpoint protection monitoring and basic incident response tasks.",
-      "Configured alerts and monitored logs for security events."
+      "Security consultation and uplift including Microsoft 365 hardening, IR planning and ISO 27001 support.",
+      "Vulnerability management, threat monitoring, and risk remediation.",
+      "Incident response support covering threat investigation, triage, and containment."
     ],
 
     // Certifications
