@@ -4,38 +4,39 @@ import "./globals.css";
 const cascadiacode = localFont({
   src: [
     {
-      path: '../public/fonts/CascadiaCode-Light.woff2',
-      weight: '300'
-    }
+      path: "../public/fonts/CascadiaCode-Light.woff2",
+      weight: "300",
+    },
   ],
-  variable: '--font-cascadiacode',
-  display: 'block'
-})
+  variable: "--font-cascadiacode",
+  display: "block",
+});
 
 export const metadata = {
   title: "Enoch Luu | Cyber Security Technician | Skills, Resume, LinkedIn",
-  description: "Welcome to the personal website of Enoch Luu, a Computer Science graduate from UNSW Sydney. Explore my web portfolio, view my resume, and connect with me on LinkedIn. Discover my projects, skills, and professional journey.",
+  description:
+    "Welcome to the personal website of Enoch Luu, a Computer Science graduate from UNSW Sydney. Explore my web portfolio, view my resume, and connect with me on LinkedIn. Discover my projects, skills, and professional journey.",
   icons: {
-    icon: '/icon.png',
+    icon: "/icon.png",
+  },
+  openGraph: {
+    title: "Enoch Luu | Cyber Security Technician | Skills, Resume, LinkedIn",
+    description:
+      "Welcome to the personal website of Enoch Luu, a Computer Science graduate from UNSW Sydney. Explore my web portfolio, view my resume, and connect with me on LinkedIn. Discover my projects, skills, and professional journey.",
+    url: "https://www.enochluu.com",
+  },
+  twitter: {
+    title: "Enoch Luu | Cyber Security Technician | Skills, Resume, LinkedIn",
+    description:
+      "Welcome to the personal website of Enoch Luu, a Computer Science graduate from UNSW Sydney. Explore my web portfolio, view my resume, and connect with me on LinkedIn. Discover my projects, skills, and professional journey.",
+    card: "summary",
   },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <title>{metadata.title}</title>
-        <meta name="description" content={metadata.description} />
-        <link rel="icon" href="/icon.png" type="image/png" />
-        <meta property="og:title" content={metadata.title} />
-        <meta property="og:description" content={metadata.description} />
-        <meta property="og:url" content="https://www.enochluu.com" />
-        <meta name="twitter:title" content={metadata.title} />
-        <meta name="twitter:description" content={metadata.description} />
-      </head>
-      <body className={cascadiacode.className}>
-        {children}
-      </body>
+      <body className={cascadiacode.className}>{children}</body>
     </html>
   );
 }
