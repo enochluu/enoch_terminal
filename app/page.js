@@ -690,7 +690,7 @@ _|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|_|"""""|
             `}
             </pre>
           </div>
-          <div>Welcome to my interactive web terminal.</div>
+          <div>Welcome to my interactive web terminal portfolio.</div>
           <div>For a list of available commands, type 'help'.</div>
           {output.map((line, index) => (
             <div key={index}>
