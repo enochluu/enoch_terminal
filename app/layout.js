@@ -31,6 +31,9 @@ export const metadata = {
       "Welcome to the personal website of Enoch Luu, a Computer Science graduate from UNSW Sydney. Explore my web portfolio, view my resume, and connect with me on LinkedIn. Discover my projects, skills, and professional journey.",
     card: "summary",
   },
+    alternates: {
+    canonical: "https://www.enochluu.com",
+  }
 };
 
 export default function RootLayout({ children }) {
